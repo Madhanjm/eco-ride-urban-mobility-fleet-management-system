@@ -31,3 +31,14 @@ class Vehicle():
         self.__battery_level=percentage
         
     battery_level = property(get_battery_level, set_battery_level)
+    
+class ElectricCar(Vehicle):
+    def __init__(self,vehicle_id,model,battery_level,seating_capacity):
+        super().__init__(vehicle_id,model,battery_level)
+        self.seating_capacity=seating_capacity
+     
+class ElectricScooter(Vehicle):
+    def __init__(self, vehicle_id, model, battery_level,max_speed_limit):
+        super().__init__(vehicle_id, model, battery_level)
+        self.max_speed_limit=max_speed_limit
+    
