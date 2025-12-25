@@ -7,6 +7,11 @@ class Vehicle(ABC):
         self.__rental_price=None
         self.__maintenance_status=None
         
+    def __eq__(self, other):
+        if not isinstance(other,Vehicle):
+            return False
+        return self.vehicle_id==other.vehicle_id
+        
     def get_rental_price(self):
         return self.__rental_price
     

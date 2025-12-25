@@ -1,7 +1,9 @@
 from vehicle import Vehicle,ElectricCar,ElectricScooter
 
 class EcoRideMain:
-    fleet_hub={}
+    def __init__(self):
+        self.fleet_hub={}
+
     def greet(self):
         print("Welcome to Eco-Ride Urban Mobility System")
         
@@ -16,10 +18,10 @@ class EcoRideMain:
             print(f"{i.model} trip coast : {cost}")
             
     def add_hub(self,hub_name):
-        if hub_name in EcoRideMain.fleet_hub:
+        if hub_name in self.fleet_hub:
             print(f"Hub {hub_name} is already present")
         else:
-            EcoRideMain.fleet_hub[hub_name]=[]
+            self.fleet_hub[hub_name]=[]
             print(f"Hub {hub_name} added successfully")   
             
     def add_vehicle(self,hub_name):
@@ -44,37 +46,45 @@ class EcoRideMain:
             print("Invalid Type")
             return
         
-        
-        EcoRideMain.fleet_hub[hub_name].append(vehicle)
+        if self.duplicate_check(hub_name,vehicle):
+            return
+        self.fleet_hub[hub_name].append(vehicle)
         print(f"{vehicle_id} id added to {hub_name}")
+        
+    def duplicate_check(self,hub_name,vehicle):
+        existing_vehicles=self.fleet_hub[hub_name]
+        if any([v==vehicle for v in existing_vehicles]):
+            print(f"Duplicate found at {vehicle.vehicle_id} in {hub_name}")
+            return True
+        return False
             
-            
-er=EcoRideMain()
-while True:
-    print("1.Add New Hub")
-    print("2.Add Vehicle to Existing Hub")
-    print("3.Exit")
-    
-    choice=int(input("Enter Your choice :"))
-    
-    match choice:
-        case 1:
-            hub_name=input("Enter Hub Name :")
-            er.add_hub(hub_name)
+if __name__ == "__main__":
+    er=EcoRideMain()
+    while True:
+        print("1.Add New Hub")
+        print("2.Add Vehicle to Existing Hub")
+        print("3.Exit")
+        
+        choice=int(input("Enter Your choice :"))
+        
+        match choice:
+            case 1:
+                hub_name=input("Enter Hub Name :")
+                er.add_hub(hub_name)
+                        
+            case 2:
+                hub_name=input("Enter Hub Name to add vehicles :")
+                if hub_name not in er.fleet_hub:
+                    print(f"Hub {hub_name} not present")
+                    continue
+                er.add_vehicle(hub_name)
                     
-        case 2:
-            hub_name=input("Enter Hub Name to add vehicles :")
-            if hub_name not in EcoRideMain.fleet_hub:
-                print(f"Hub {hub_name} not present")
-                continue
-            er.add_vehicle(hub_name)
-                
-        case 3:
-                print(f"{EcoRideMain.fleet_hub}")
-                print("Exited!!")
-                break
-        case _:
-            print("Invalid choice")
+            case 3:
+                    print(f"{er.fleet_hub}")
+                    print("Exited!!")
+                    break
+            case _:
+                print("Invalid choice")
 
         
 
