@@ -58,12 +58,30 @@ class EcoRideMain:
             return True
         return False
             
+    def search_by_hub_location(self,hub_name):
+        if hub_name not in self.fleet_hub:
+            print(f"{hub_name} not found")
+            return
+        
+        vehicles=self.fleet_hub[hub_name]
+        
+        if not vehicles:
+            print(f"No Vehicles at {hub_name}")
+            return
+        
+        print(f"Vehicle in {hub_name}")
+        for i in vehicles:
+            print(f"VEHICLE ID :{i.vehicle_id}|VEHICLE MODEL :{i.model}|VEHICLE BATTERY :{i.battery_level}%")
+        
+        
+        
 if __name__ == "__main__":
     er=EcoRideMain()
     while True:
         print("1.Add New Hub")
         print("2.Add Vehicle to Existing Hub")
-        print("3.Exit")
+        print("3.Search Vehicle by Hub Location(Hub Name)")
+        print("4.Exit")
         
         choice=int(input("Enter Your choice :"))
         
@@ -78,8 +96,12 @@ if __name__ == "__main__":
                     print(f"Hub {hub_name} not present")
                     continue
                 er.add_vehicle(hub_name)
-                    
+                
             case 3:
+                hub_name=input("Enter the Hub Location(Hub Name) to search vehicles :")
+                er.search_by_hub_location(hub_name)
+                    
+            case 4:
                     print(f"{er.fleet_hub}")
                     print("Exited!!")
                     break
