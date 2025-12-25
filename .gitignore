@@ -1,4 +1,4 @@
-# Virtual Environment
+# Virtual environment
 eco_ride/
 env/
 
@@ -8,6 +8,3 @@ __pycache__/
 
 # VS Code
 .vscode/
-
-# OS
-.DS_Store
