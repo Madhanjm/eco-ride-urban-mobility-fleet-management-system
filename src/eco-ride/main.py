@@ -72,6 +72,25 @@ class EcoRideMain:
         print(f"Vehicle in {hub_name}")
         for i in vehicles:
             print(f"VEHICLE ID :{i.vehicle_id}|VEHICLE MODEL :{i.model}|VEHICLE BATTERY :{i.battery_level}%")
+            
+    def catagorized_view(self):
+        catagory_vehicle={"car":[],"scooter":[]}
+        
+        for vehicles in self.fleet_hub.values():
+            for v in vehicles:
+                if isinstance(v,ElectricCar):
+                    catagory_vehicle["car"].append(v)
+                elif isinstance(v,ElectricScooter):
+                    catagory_vehicle["scooter"].append(v)
+
+        for catagory,vehicles in catagory_vehicle.items():
+            print(f"---{catagory}---")
+            if not vehicles:
+                print("No vehicles in catagory")
+                continue
+            
+            for v in vehicles:
+                  print(f"VEHICLE ID :{v.vehicle_id} | VEHICLE MODEL :{v.model} | VEHICLE BATTERY :{v.battery_level}%")
         
         
         
@@ -81,6 +100,7 @@ if __name__ == "__main__":
         print("1.Add New Hub")
         print("2.Add Vehicle to Existing Hub")
         print("3.Search Vehicle by Hub Location(Hub Name)")
+        print("4.search by category ")
         print("4.Exit")
         
         choice=int(input("Enter Your choice :"))
@@ -100,8 +120,11 @@ if __name__ == "__main__":
             case 3:
                 hub_name=input("Enter the Hub Location(Hub Name) to search vehicles :")
                 er.search_by_hub_location(hub_name)
-                    
+                
             case 4:
+                er.catagorized_view()
+                    
+            case 5:
                     print(f"{er.fleet_hub}")
                     print("Exited!!")
                     break
