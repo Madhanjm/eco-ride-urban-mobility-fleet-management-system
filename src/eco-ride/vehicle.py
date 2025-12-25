@@ -43,7 +43,7 @@ class ElectricCar(Vehicle):
         self.seating_capacity=seating_capacity
         
     def calculate_trip_cost(self, distance):
-        pass
+        return 5 + (0.5*distance)   
      
 class ElectricScooter(Vehicle):
     def __init__(self, vehicle_id, model, battery_level,max_speed_limit):
@@ -51,4 +51,4 @@ class ElectricScooter(Vehicle):
         self.max_speed_limit=max_speed_limit
     
     def calculate_trip_cost(self, distance):
-        pass
+        return 1 + (0.15 * distance)
