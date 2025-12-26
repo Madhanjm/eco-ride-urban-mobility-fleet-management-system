@@ -128,6 +128,22 @@ class EcoRideMain:
         for v in sorted_vehicles:
             print(v)
         
+    def sort_vehicles_by_battery(self,hub_name):
+        if hub_name not in self.fleet_hub:
+            print(f"Hub {hub_name} not found")
+            return
+
+        vehicles = self.fleet_hub[hub_name]
+
+        if not vehicles:
+            print(f"No Vehicles at {hub_name}")
+            return
+
+        sorted_vehicles = sorted(vehicles, key=lambda v: v.battery_level,reverse=True)
+
+        print(f"Vehicles in {hub_name} sorted by Battery By High To Low")
+        for v in sorted_vehicles:
+            print(v)
         
         
 if __name__ == "__main__":
@@ -137,9 +153,10 @@ if __name__ == "__main__":
         print("2.Add Vehicle to Existing Hub")
         print("3.Search Vehicle by Hub Location(Hub Name)")
         print("4.search by category ")
-        print("5. Fleet Analytics")
+        print("5.Fleet Analytics")
         print("6.Sort By Vehicle using model")
-        print("7.Exit")
+        print("7.Sort Vehicle By Battery")
+        print("8.Exit")
         
         choice=int(input("Enter Your choice :"))
         
@@ -167,8 +184,11 @@ if __name__ == "__main__":
                 
             case 6:
                 er.sort_vehicles_by_model(hub_name)
-                    
+            
             case 7:
+                er.sort_vehicles_by_battery(hub_name)
+                    
+            case 8:
                     print(f"{er.fleet_hub}")
                     print("Exited!!")
                     break
