@@ -6,6 +6,7 @@ class Vehicle(ABC):
         self.battery_level=battery_level
         self.__rental_price=None
         self.__maintenance_status=None
+        self.status="Available"
         
     def __eq__(self, other):
         if not isinstance(other,Vehicle):
@@ -25,8 +26,17 @@ class Vehicle(ABC):
         return self.__maintenance_status
     
     def set_maintenance_status(self,status):
-         self.__maintenance_status=status      
+         allowed = ["Available", "On Trip", "Under Maintenance"]
+    
+         if status not in allowed:
+                raise ValueError("Invalid status. Allowed: Available, On Trip, Under Maintenance")
+            
+         self.__maintenance_status = status
+         self.status = status 
+             
     maintenance_status=property(get_maintenance_status,set_maintenance_status)
+    
+
     
     def get_battery_level(self):
         return self.__battery_level

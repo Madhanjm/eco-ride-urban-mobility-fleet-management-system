@@ -33,8 +33,7 @@ class EcoRideMain:
             vehicle_battery=int(input("Enter Vehicle Battery :"))
             vehicle_seats=int(input("Enter Seating Capacity :"))
             vehicle=ElectricCar(vehicle_id,vehicle_model,vehicle_battery,vehicle_seats)
-            
-            
+                 
         elif vehicle_type=="scooter":
             vehicle_id=input("Enter Vehicle ID :")
             vehicle_model=input("Enter Vehicle Model :")
@@ -44,6 +43,13 @@ class EcoRideMain:
             
         else:
             print("Invalid Type")
+            return
+        
+        status = input("Enter Vehicle Status (Available / On Trip / Under Maintenance): ").title()
+        try:
+            vehicle.set_maintenance_status(status)
+        except ValueError as e:
+            print(e)
             return
         
         if self.duplicate_check(hub_name,vehicle):
@@ -91,6 +97,19 @@ class EcoRideMain:
             
             for v in vehicles:
                   print(f"VEHICLE ID :{v.vehicle_id} | VEHICLE MODEL :{v.model} | VEHICLE BATTERY :{v.battery_level}%")
+                  
+    def fleet_analytics(self):
+        status_count={"Available":0,"On Trip":0,"Under Maintenance":0}
+        for vehicles in self.fleet_hub.values():
+            for v in vehicles:
+                if v.status in status_count:
+                    status_count[v.status]+=1
+        
+        print("---Fleet Analytics---")
+        print(f"Available Vehicle : {status_count['Available']}")
+        print(f"On Trip Vehicle : {status_count['On Trip']}")
+        print(f"Under Maintenance Vehicle : {status_count['Under Maintenance']}")
+        print("--------------------------------------")
         
         
         
@@ -101,7 +120,8 @@ if __name__ == "__main__":
         print("2.Add Vehicle to Existing Hub")
         print("3.Search Vehicle by Hub Location(Hub Name)")
         print("4.search by category ")
-        print("4.Exit")
+        print("5. Fleet Analytics")
+        print("6.Exit")
         
         choice=int(input("Enter Your choice :"))
         
@@ -123,8 +143,11 @@ if __name__ == "__main__":
                 
             case 4:
                 er.catagorized_view()
-                    
+                
             case 5:
+                er.fleet_analytics()
+                    
+            case 6:
                     print(f"{er.fleet_hub}")
                     print("Exited!!")
                     break
