@@ -1,0 +1,12 @@
+{
+    "airpot": [
+        {
+            "vehicle_type": "car",
+            "vehicle_id": "\"air-1\"",
+            "model": "\"car-v1\"",
+            "battery_level": 85,
+            "status": "Available",
+            "extra": 4
+        }
+    ]
+}

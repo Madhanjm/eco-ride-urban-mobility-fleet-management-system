@@ -1,4 +1,5 @@
 import csv
+import json
 from vehicle import Vehicle,ElectricCar,ElectricScooter
 
 class EcoRideMain:
@@ -178,7 +179,6 @@ class EcoRideMain:
                     status = row["status"]
                     extra = int(row["extra"])
                     
-                    # Create hub if it doesn't exist
                     if hub_name not in self.fleet_hub:
                         self.fleet_hub[hub_name] = []
                     
@@ -197,6 +197,69 @@ class EcoRideMain:
             print("Fleet data loaded from CSV successfully.")
         except FileNotFoundError:
             print("CSV file not found. Starting with empty fleet.")
+            
+
+    def save_fleet_to_json(self, filename="fleet_data.json"):
+        data = {}
+
+        for hub_name, vehicles in self.fleet_hub.items():
+            data[hub_name] = []
+
+            for v in vehicles:
+                if isinstance(v, ElectricCar):
+                    vehicle_type = "car"
+                    extra = v.seating_capacity
+                elif isinstance(v, ElectricScooter):
+                    vehicle_type = "scooter"
+                    extra = v.max_speed_limit
+                else:
+                    continue
+
+                data[hub_name].append({
+                    "vehicle_type": vehicle_type,
+                    "vehicle_id": v.vehicle_id,
+                    "model": v.model,
+                    "battery_level": v.battery_level,
+                    "status": v.status,
+                    "extra": extra
+                })
+
+        with open(filename, "w") as file:
+            json.dump(data, file, indent=4)
+
+        print("Fleet data saved to JSON successfully.")
+        
+    def load_fleet_from_json(self, filename="fleet_data.json"):
+        try:
+            with open(filename, "r") as file:
+                data = json.load(file)
+
+            self.fleet_hub = {}
+
+            for hub_name, vehicles in data.items():
+                self.fleet_hub[hub_name] = []
+
+                for v in vehicles:
+                    if v["vehicle_type"] == "car":
+                        vehicle = ElectricCar(v["vehicle_id"],v["model"],v["battery_level"],v["extra"])
+                    elif v["vehicle_type"] == "scooter":
+                        vehicle = ElectricScooter(v["vehicle_id"],v["model"],v["battery_level"],v["extra"])
+                    else:
+                        continue
+
+                    vehicle.set_maintenance_status(v["status"])
+                    self.fleet_hub[hub_name].append(vehicle)
+
+            print("Fleet data loaded from JSON successfully.")
+
+        except FileNotFoundError:
+            print("JSON file not found. Starting with empty fleet.")
+
+    
+    
+    
+
+
 
 
         
@@ -213,7 +276,9 @@ if __name__ == "__main__":
         print("7.Sort Vehicle By Battery")
         print("8 Save to csv file")
         print("9.Load the csv file")
-        print("10.Exit")
+        print("10.save to json file")
+        print("11.load the json file")
+        print("12.Exit")
         
         choice=int(input("Enter Your choice :"))
         
@@ -250,8 +315,14 @@ if __name__ == "__main__":
                 
             case 9:
                 er.load_fleet_from_csv()
-
+                
             case 10:
+                er.save_fleet_to_json()
+            
+            case 11:
+                er.load_fleet_from_json()
+                
+            case 12:
                     print(f"{er.fleet_hub}")
                     print("Exited!!")
                     break
