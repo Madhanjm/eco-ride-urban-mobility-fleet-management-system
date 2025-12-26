@@ -1,3 +1,4 @@
+import csv
 from vehicle import Vehicle,ElectricCar,ElectricScooter
 
 class EcoRideMain:
@@ -144,6 +145,60 @@ class EcoRideMain:
         print(f"Vehicles in {hub_name} sorted by Battery By High To Low")
         for v in sorted_vehicles:
             print(v)
+            
+    def save_fleet_to_csv(self, filename="fleet_data.csv"):
+        with open(filename, mode='w', newline='') as file:
+            writer = csv.writer(file)
+    
+            writer.writerow(["hub_name", "vehicle_type", "vehicle_id", "model", "battery_level", "status", "extra"])
+            
+            for hub_name, vehicles in self.fleet_hub.items():
+                for v in vehicles:
+                    if isinstance(v, ElectricCar):
+                        vehicle_type = "car"
+                        extra = v.seating_capacity
+                    elif isinstance(v, ElectricScooter):
+                        vehicle_type = "scooter"
+                        extra = v.max_speed_limit
+                    else:
+                        continue
+                    writer.writerow([hub_name, vehicle_type, v.vehicle_id, v.model, v.battery_level, v.status, extra])
+        print("Fleet data saved to CSV successfully.")
+        
+    def load_fleet_from_csv(self, filename="fleet_data.csv"):
+        try:
+            with open(filename, mode='r') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    hub_name = row["hub_name"]
+                    vehicle_type = row["vehicle_type"]
+                    vehicle_id = row["vehicle_id"]
+                    model = row["model"]
+                    battery_level = int(row["battery_level"])
+                    status = row["status"]
+                    extra = int(row["extra"])
+                    
+                    # Create hub if it doesn't exist
+                    if hub_name not in self.fleet_hub:
+                        self.fleet_hub[hub_name] = []
+                    
+                    # Recreate vehicle
+                    if vehicle_type == "car":
+                        vehicle = ElectricCar(vehicle_id, model, battery_level, extra)
+                    elif vehicle_type == "scooter":
+                        vehicle = ElectricScooter(vehicle_id, model, battery_level, extra)
+                    else:
+                        continue
+                    
+                    # Set vehicle status
+                    vehicle.set_maintenance_status(status)
+                    
+                    self.fleet_hub[hub_name].append(vehicle)
+            print("Fleet data loaded from CSV successfully.")
+        except FileNotFoundError:
+            print("CSV file not found. Starting with empty fleet.")
+
+
         
         
 if __name__ == "__main__":
@@ -156,7 +211,9 @@ if __name__ == "__main__":
         print("5.Fleet Analytics")
         print("6.Sort By Vehicle using model")
         print("7.Sort Vehicle By Battery")
-        print("8.Exit")
+        print("8 Save to csv file")
+        print("9.Load the csv file")
+        print("10.Exit")
         
         choice=int(input("Enter Your choice :"))
         
@@ -189,6 +246,12 @@ if __name__ == "__main__":
                 er.sort_vehicles_by_battery(hub_name)
                     
             case 8:
+                er.save_fleet_to_csv()  
+                
+            case 9:
+                er.load_fleet_from_csv()
+
+            case 10:
                     print(f"{er.fleet_hub}")
                     print("Exited!!")
                     break
