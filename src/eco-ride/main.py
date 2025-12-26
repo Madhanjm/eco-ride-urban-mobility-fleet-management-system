@@ -3,6 +3,10 @@ import json
 from vehicle import Vehicle,ElectricCar,ElectricScooter
 
 class EcoRideMain:
+    """
+    Main controller class for Eco-Ride Urban Mobility System.
+    Manages hubs, vehicles, analytics, sorting, and file persistence.
+    """
     def __init__(self):
         self.fleet_hub={}
 
@@ -10,6 +14,10 @@ class EcoRideMain:
         print("Welcome to Eco-Ride Urban Mobility System")
         
     def calculate_cost(self):
+        """
+        Demonstrates polymorphism by calculating trip costs
+        for different vehicle types using a common interface.
+        """
         es1=ElectricScooter("ES-1","ES1",50,90)
         es2=ElectricScooter("ES-2","ES2",60,85)
         ec1=ElectricCar("EC-1","Ec1",50,4) 
@@ -20,13 +28,23 @@ class EcoRideMain:
             print(f"{i.model} trip coast : {cost}")
             
     def add_hub(self,hub_name):
-        if hub_name in self.fleet_hub:
+         """
+          Adds a new fleet hub to the system.
+         :param hub_name: Name of the hub (string)
+         """
+         if hub_name in self.fleet_hub:
             print(f"Hub {hub_name} is already present")
-        else:
+         else:
             self.fleet_hub[hub_name]=[]
             print(f"Hub {hub_name} added successfully")   
             
     def add_vehicle(self,hub_name):
+        """
+        Adds a new ElectricCar or ElectricScooter to an existing hub.
+        Performs duplicate ID check and status validation.
+
+        :param hub_name: Name of the hub where vehicle is added
+        """
         vehicle_type=input("Enter the Vehicle Type(car or scooter):").lower()
         
         if vehicle_type=="car":
@@ -60,13 +78,25 @@ class EcoRideMain:
         print(f"{vehicle_id} id added to {hub_name}")
         
     def duplicate_check(self,hub_name,vehicle):
-        existing_vehicles=self.fleet_hub[hub_name]
-        if any([v==vehicle for v in existing_vehicles]):
+         """
+        Checks for duplicate vehicle IDs within a hub.
+
+        :param hub_name: Hub name
+        :param vehicle: Vehicle object
+        :return: True if duplicate exists, else False
+        """
+         existing_vehicles=self.fleet_hub[hub_name]
+         if any([v==vehicle for v in existing_vehicles]):
             print(f"Duplicate found at {vehicle.vehicle_id} in {hub_name}")
             return True
-        return False
+         return False
             
     def search_by_hub_location(self,hub_name):
+        """
+        Searches and displays all vehicles available in a given hub.
+
+        :param hub_name: Name of the hub to search
+        """
         if hub_name not in self.fleet_hub:
             print(f"{hub_name} not found")
             return
@@ -82,6 +112,11 @@ class EcoRideMain:
             print(f"VEHICLE ID :{i.vehicle_id}|VEHICLE MODEL :{i.model}|VEHICLE BATTERY :{i.battery_level}%")
             
     def catagorized_view(self):
+        """
+        Displays vehicles grouped by their category:
+        Electric Cars and Electric Scooters.
+        """
+        
         catagory_vehicle={"car":[],"scooter":[]}
         
         for vehicles in self.fleet_hub.values():
@@ -101,6 +136,10 @@ class EcoRideMain:
                   print(f"VEHICLE ID :{v.vehicle_id} | VEHICLE MODEL :{v.model} | VEHICLE BATTERY :{v.battery_level}%")
                   
     def fleet_analytics(self):
+        """
+        Displays count of vehicles grouped by status:
+        Available, On Trip, Under Maintenance.
+         """   
         status_count={"Available":0,"On Trip":0,"Under Maintenance":0}
         for vehicles in self.fleet_hub.values():
             for v in vehicles:
@@ -114,6 +153,11 @@ class EcoRideMain:
         print("--------------------------------------")
         
     def sort_vehicles_by_model(self,hub_name):
+        """
+        Sorts and displays vehicles in a hub alphabetically by model name.
+
+        :param hub_name: Name of the hub
+        """
         if hub_name not in self.fleet_hub:
             print(f"Hub {hub_name} not found")
             return
@@ -131,6 +175,12 @@ class EcoRideMain:
             print(v)
         
     def sort_vehicles_by_battery(self,hub_name):
+        """
+        Sorts and displays vehicles in a hub by battery level
+        in descending order.
+
+        :param hub_name: Name of the hub
+        """
         if hub_name not in self.fleet_hub:
             print(f"Hub {hub_name} not found")
             return
@@ -148,6 +198,11 @@ class EcoRideMain:
             print(v)
             
     def save_fleet_to_csv(self, filename="fleet_data.csv"):
+        """
+        Saves the entire fleet hub and vehicle data into a CSV file.
+
+        :param filename: CSV file name
+        """
         with open(filename, mode='w', newline='') as file:
             writer = csv.writer(file)
     
@@ -167,6 +222,11 @@ class EcoRideMain:
         print("Fleet data saved to CSV successfully.")
         
     def load_fleet_from_csv(self, filename="fleet_data.csv"):
+        """
+        Loads fleet hub and vehicle data from a JSON file.
+
+        :param filename: JSON file name
+        """
         try:
             with open(filename, mode='r') as file:
                 reader = csv.DictReader(file)
@@ -198,8 +258,12 @@ class EcoRideMain:
         except FileNotFoundError:
             print("CSV file not found. Starting with empty fleet.")
             
-
     def save_fleet_to_json(self, filename="fleet_data.json"):
+        """
+        Saves the entire fleet hub and vehicle data into a JSON file.
+
+        :param filename: JSON file name
+        """    
         data = {}
 
         for hub_name, vehicles in self.fleet_hub.items():
@@ -230,6 +294,12 @@ class EcoRideMain:
         print("Fleet data saved to JSON successfully.")
         
     def load_fleet_from_json(self, filename="fleet_data.json"):
+        """
+        Loads fleet hub and vehicle data from a JSON file
+        and reconstructs vehicle objects.
+
+        :param filename: JSON file name
+        """
         try:
             with open(filename, "r") as file:
                 data = json.load(file)
@@ -254,16 +324,7 @@ class EcoRideMain:
 
         except FileNotFoundError:
             print("JSON file not found. Starting with empty fleet.")
-
-    
-    
-    
-
-
-
-
-        
-        
+     
 if __name__ == "__main__":
     er=EcoRideMain()
     while True:
@@ -305,9 +366,11 @@ if __name__ == "__main__":
                 er.fleet_analytics()
                 
             case 6:
+                hub_name=input("Enter the Hub Name")
                 er.sort_vehicles_by_model(hub_name)
             
             case 7:
+                hub_name=input("Enter the Hub Name")
                 er.sort_vehicles_by_battery(hub_name)
                     
             case 8:

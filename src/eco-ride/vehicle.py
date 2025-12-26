@@ -1,6 +1,17 @@
 from abc import ABC,abstractmethod
 class Vehicle(ABC):
+    """
+        Abstract base class representing a generic electric vehicle.
+        Enforces fare calculation and encapsulates sensitive data.
+        """
     def __init__(self,vehicle_id,model,battery_level):
+        """
+        Initializes a vehicle with basic details.
+
+        :param vehicle_id: Unique identifier for the vehicle
+        :param model: Vehicle model name
+        :param battery_level: Current battery percentage (0–100)
+        """
         self.vehicle_id=vehicle_id
         self.model=model
         self.battery_level=battery_level
@@ -9,8 +20,18 @@ class Vehicle(ABC):
         self.status=None
     
     def __str__(self):
-        return f"ID:{self.vehicle_id} | Model:{self.model} | Battery:{self.battery_level}% | Status: {self.status}"
+         """
+        Returns a  string representation of the vehicle.
+        """
+         return f"ID:{self.vehicle_id} | Model:{self.model} | Battery:{self.battery_level}% | Status: {self.status}"
+     
     def __eq__(self, other):
+        """
+    Compares two vehicles based on their vehicle ID.
+
+    :param other: Another Vehicle object
+    :return: True if vehicle IDs match, else False
+        """
         if not isinstance(other,Vehicle):
             return False
         return self.vehicle_id==other.vehicle_id
@@ -28,13 +49,13 @@ class Vehicle(ABC):
         return self.__maintenance_status
     
     def set_maintenance_status(self,status):
-         allowed = ["Available", "On Trip", "Under Maintenance"]
+        allowed = ["Available", "On Trip", "Under Maintenance"]
     
-         if status not in allowed:
+        if status not in allowed:
                 raise ValueError("Invalid status. Allowed: Available, On Trip, Under Maintenance")
             
-         self.__maintenance_status = status
-         self.status = status 
+        self.__maintenance_status = status
+        self.status = status 
              
     maintenance_status=property(get_maintenance_status,set_maintenance_status)
     

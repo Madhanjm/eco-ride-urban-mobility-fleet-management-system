@@ -1,2 +1,4 @@
 hub_name,vehicle_type,vehicle_id,model,battery_level,status,extra
-airpot,car,"""air-1""","""car-v1""",85,Available,4
+Airport,car,Ec-1,base,85,Available,4
+Airport,car,ES-2,Top,90,On Trip,4
+Airport,scooter,E-1,base,78,On Trip,80

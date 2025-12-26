@@ -1,12 +1,28 @@
 {
-    "airpot": [
+    "Airport": [
         {
             "vehicle_type": "car",
-            "vehicle_id": "\"air-1\"",
-            "model": "\"car-v1\"",
+            "vehicle_id": "Ec-1",
+            "model": "base",
             "battery_level": 85,
             "status": "Available",
             "extra": 4
+        },
+        {
+            "vehicle_type": "car",
+            "vehicle_id": "ES-2",
+            "model": "Top",
+            "battery_level": 90,
+            "status": "On Trip",
+            "extra": 4
+        },
+        {
+            "vehicle_type": "scooter",
+            "vehicle_id": "E-1",
+            "model": "base",
+            "battery_level": 78,
+            "status": "On Trip",
+            "extra": 80
         }
     ]
 }
