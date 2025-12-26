@@ -6,8 +6,10 @@ class Vehicle(ABC):
         self.battery_level=battery_level
         self.__rental_price=None
         self.__maintenance_status=None
-        self.status="Available"
-        
+        self.status=None
+    
+    def __str__(self):
+        return f"ID:{self.vehicle_id} | Model:{self.model} | Battery:{self.battery_level}% | Status: {self.status}"
     def __eq__(self, other):
         if not isinstance(other,Vehicle):
             return False

@@ -111,6 +111,23 @@ class EcoRideMain:
         print(f"Under Maintenance Vehicle : {status_count['Under Maintenance']}")
         print("--------------------------------------")
         
+    def sort_vehicles_by_model(self,hub_name):
+        if hub_name not in self.fleet_hub:
+            print(f"Hub {hub_name} not found")
+            return
+
+        vehicles = self.fleet_hub[hub_name]
+
+        if not vehicles:
+            print(f"No Vehicles at {hub_name}")
+            return
+
+        sorted_vehicles = sorted(vehicles, key=lambda v: v.model.lower())
+
+        print(f"Vehicles in {hub_name} sorted by Model")
+        for v in sorted_vehicles:
+            print(v)
+        
         
         
 if __name__ == "__main__":
@@ -121,7 +138,8 @@ if __name__ == "__main__":
         print("3.Search Vehicle by Hub Location(Hub Name)")
         print("4.search by category ")
         print("5. Fleet Analytics")
-        print("6.Exit")
+        print("6.Sort By Vehicle using model")
+        print("7.Exit")
         
         choice=int(input("Enter Your choice :"))
         
@@ -146,8 +164,11 @@ if __name__ == "__main__":
                 
             case 5:
                 er.fleet_analytics()
-                    
+                
             case 6:
+                er.sort_vehicles_by_model(hub_name)
+                    
+            case 7:
                     print(f"{er.fleet_hub}")
                     print("Exited!!")
                     break
