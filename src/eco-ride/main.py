@@ -13,6 +13,56 @@ class EcoRideMain:
     def greet(self):
         print("Welcome to Eco-Ride Urban Mobility System")
         
+    def main(self):
+        while True:
+            print("1.Add New Hub")
+            print("2.Add Vehicle to Existing Hub")
+            print("3.Search Vehicle by Hub Location(Hub Name)")
+            print("4.search by category ")
+            print("5.Fleet Analytics")
+            print("6.Sort By Vehicle using model")
+            print("7.Sort Vehicle By Battery")
+            print("8.Exit")
+            
+            choice=int(input("Enter Your choice :"))
+            
+            match choice:
+                case 1:
+                    hub_name=input("Enter Hub Name :")
+                    er.add_hub(hub_name)
+                            
+                case 2:
+                    hub_name=input("Enter Hub Name to add vehicles :")
+                    if hub_name not in er.fleet_hub:
+                        print(f"Hub {hub_name} not present")
+                        continue
+                    er.add_vehicle(hub_name)
+                    
+                case 3:
+                    hub_name=input("Enter the Hub Location(Hub Name) to search vehicles :")
+                    er.search_by_hub_location(hub_name)
+                    
+                case 4:
+                    er.catagorized_view()
+                    
+                case 5:
+                    er.fleet_analytics()
+                    
+                case 6:
+                    hub_name=input("Enter the Hub Name")
+                    er.sort_vehicles_by_model(hub_name)
+                
+                case 7:
+                    hub_name=input("Enter the Hub Name")
+                    er.sort_vehicles_by_battery(hub_name)
+                        
+                case 8:
+                    print(f"{er.fleet_hub}")
+                    print("Exited!!")
+                    break
+                case _:
+                    print("Invalid choice")
+  
     def calculate_cost(self):
         """
         Demonstrates polymorphism by calculating trip costs
@@ -327,71 +377,10 @@ class EcoRideMain:
      
 if __name__ == "__main__":
     er=EcoRideMain()
-    while True:
-        print("1.Add New Hub")
-        print("2.Add Vehicle to Existing Hub")
-        print("3.Search Vehicle by Hub Location(Hub Name)")
-        print("4.search by category ")
-        print("5.Fleet Analytics")
-        print("6.Sort By Vehicle using model")
-        print("7.Sort Vehicle By Battery")
-        print("8 Save to csv file")
-        print("9.Load the csv file")
-        print("10.save to json file")
-        print("11.load the json file")
-        print("12.Exit")
-        
-        choice=int(input("Enter Your choice :"))
-        
-        match choice:
-            case 1:
-                hub_name=input("Enter Hub Name :")
-                er.add_hub(hub_name)
-                        
-            case 2:
-                hub_name=input("Enter Hub Name to add vehicles :")
-                if hub_name not in er.fleet_hub:
-                    print(f"Hub {hub_name} not present")
-                    continue
-                er.add_vehicle(hub_name)
-                
-            case 3:
-                hub_name=input("Enter the Hub Location(Hub Name) to search vehicles :")
-                er.search_by_hub_location(hub_name)
-                
-            case 4:
-                er.catagorized_view()
-                
-            case 5:
-                er.fleet_analytics()
-                
-            case 6:
-                hub_name=input("Enter the Hub Name")
-                er.sort_vehicles_by_model(hub_name)
-            
-            case 7:
-                hub_name=input("Enter the Hub Name")
-                er.sort_vehicles_by_battery(hub_name)
-                    
-            case 8:
-                er.save_fleet_to_csv()  
-                
-            case 9:
-                er.load_fleet_from_csv()
-                
-            case 10:
-                er.save_fleet_to_json()
-            
-            case 11:
-                er.load_fleet_from_json()
-                
-            case 12:
-                    print(f"{er.fleet_hub}")
-                    print("Exited!!")
-                    break
-            case _:
-                print("Invalid choice")
+    er.load_fleet_from_csv("src/eco-ride/fleet_data.csv")
+    er.load_fleet_from_json("src/eco-ride/fleet_data.json")
+    er.main()
+    er.save_fleet_to_csv("src/eco-ride/fleet_data.csv")
+    er.save_fleet_to_json("src/eco-ride/fleet_data.json")
+    
 
-        
-
-        

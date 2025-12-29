@@ -59,8 +59,6 @@ class Vehicle(ABC):
              
     maintenance_status=property(get_maintenance_status,set_maintenance_status)
     
-
-    
     def get_battery_level(self):
         return self.__battery_level
     
