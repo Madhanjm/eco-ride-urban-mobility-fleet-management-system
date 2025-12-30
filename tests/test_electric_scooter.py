@@ -1,5 +1,5 @@
 import pytest
-from eco_ride.vehicle import ElectricScooter
+from eco_rides.vehicle import ElectricScooter
 
 @pytest.fixture
 def scooter():

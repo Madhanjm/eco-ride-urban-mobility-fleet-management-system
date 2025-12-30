@@ -1,5 +1,5 @@
 import pytest
-from eco_ride.vehicle import ElectricCar
+from eco_rides.vehicle import ElectricCar
 @pytest.fixture
 def car():
     car= ElectricCar("id","base",85,4)

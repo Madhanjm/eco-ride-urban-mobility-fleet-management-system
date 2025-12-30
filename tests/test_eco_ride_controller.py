@@ -1,6 +1,6 @@
 import pytest
-from eco_ride.eco_ride_controller import EcoRideMain
-from eco_ride.vehicle import *
+from eco_rides.eco_ride_controller import EcoRideMain
+from eco_rides.vehicle import *
 
 @pytest.fixture    
 def hubS():
