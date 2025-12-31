@@ -67,7 +67,7 @@ class EcoRideMain:
                     break
                 case _:
                     print("Invalid choice")
-  
+
     def calculate_cost(self):
         """
         Demonstrates polymorphism by calculating trip costs
@@ -189,7 +189,7 @@ class EcoRideMain:
             
             for v in vehicles:
                   print(f"VEHICLE ID :{v.vehicle_id} | VEHICLE MODEL :{v.model} | VEHICLE BATTERY :{v.battery_level}%")
-                  
+
     def fleet_analytics(self):
         """
         Displays count of vehicles grouped by status:
@@ -379,7 +379,7 @@ class EcoRideMain:
 
         except FileNotFoundError:
             print("JSON file not found. Starting with empty fleet.")
-     
+
 
     
 

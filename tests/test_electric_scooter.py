@@ -38,13 +38,3 @@ def test_scooter_battery(scooter):
 def test_scooter_battery_exception(scooter):
     with pytest.raises(ValueError):
         scooter.battery_level=120
-      
-    
-    
-
-   
-    
-
-    
-
-    
